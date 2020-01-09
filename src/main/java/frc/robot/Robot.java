@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
  * update the build.gradle file in the project.
  */
 public class Robot extends RobotBase {
+  public static Loop mill;
   public void robotInit() {
 
   }
@@ -29,9 +30,11 @@ public class Robot extends RobotBase {
   }
 
   public void teleop() {
-    
+  
   }
-
+  public void teleopPeriodic(){
+    mill.seed();
+  }
   public void test() {
   }
 

@@ -23,12 +23,16 @@ public class Loop {
 
 
 public void addGrain(Grain e){
-    e.run();
     chain.add(e);
+    seed();
 }
 
+public void seed(){
+    maintence();
+    passThrough();
+}
 //looks for dead grians
-public void Maintence(){
+public void maintence(){
 		for (int i = 0; i < chain.size(); i++) {
             System.out.println(chain.get(i));
             if(chain.get(i).dead){
@@ -36,6 +40,15 @@ public void Maintence(){
             }
 	}
     
+}
+public void passThrough(){
+    for (int i = 0; i < chain.size(); i++) {
+        System.out.println(chain.get(i));
+        if(!chain.get(i).active){
+            chain.get(i).run();
+        }
+}
+
 }
 
 }

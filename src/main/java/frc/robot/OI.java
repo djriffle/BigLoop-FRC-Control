@@ -6,11 +6,13 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+import frc.robot.Robot;
 import frc.robot.Loop;
 import frc.robot.Grain;
 import frc.robot.Procedure;
 import frc.robot.TC;
-
+import frc.robot.Subsystems.Drivetrain;
+import frc.robot.ninjalib.Gamepad;
 import java.util.function.DoubleSupplier;
 
 
@@ -19,19 +21,16 @@ import java.util.function.DoubleSupplier;
  */
 public class OI {
     public OI(){
-
-        Loop Mill = new Loop();
-        
-        Procedure movefoward = ()->{System.out.println("moving motor forward");};
-        TC hitwall = ()->{return true;};
-        Procedure backupalittle = () ->{System.out.println("backing up a little");};
-        
-        //when button is pressed
-        Grain e = new Grain(movefoward,hitwall,backupalittle);
-        Mill.addGrain(e);
-        //
-
-
+        //temporary make subsystem
+        Drivetrain drivetrain = new Drivetrain();
+        //make gamepad
+        Gamepad driver = new Gamepad(0);
+        //make procedures and conditions
+        TC noTC = ()->{return false;};
+        Procedure drive = () ->{drivetrain.arcade(driver.getRightX()/1.75,-driver.getLeftY()/1.4);};
+        //make and add grain
+        Grain e = new Grain(drive,noTC,drive);
+        Robot.mill.addGrain(e);
     }
 
 }

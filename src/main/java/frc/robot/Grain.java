@@ -14,6 +14,7 @@ public class Grain {
     public TC tCondition; //will be a method that returns a boolean
     public Procedure tProcedure; //will be a void method
     public boolean dead;
+    public boolean active = false;
     public boolean checkmark = true;
      
     public Grain(Procedure procedure, TC tCondition, Procedure tProcedure){
@@ -31,15 +32,18 @@ public class Grain {
     }
 
     public void run(){
+        if(checkmark){
             if(!tCondition.ask()) {
+                //active = true;
                 procedure.run();
             }
             else{
                 tProcedure.run();
                 dead = true;
             }
-        }  
-    }
+        }
+    }  
+}
         
 
  
