@@ -34,7 +34,6 @@ public void seed(){
 //looks for dead grians
 public void maintence(){
 		for (int i = 0; i < chain.size(); i++) {
-            System.out.println(chain.get(i));
             if(chain.get(i).dead){
                 chain.remove(i);
             }
@@ -43,7 +42,6 @@ public void maintence(){
 }
 public void passThrough(){
     for (int i = 0; i < chain.size(); i++) {
-        System.out.println(chain.get(i));
         if(!chain.get(i).active){
             chain.get(i).run();
         }

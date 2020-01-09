@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
+import edu.wpi.first.wpilibj.DriverStation;
+
 /**
  * Add your docs here.
  */
@@ -35,6 +38,7 @@ public class Grain {
         if(checkmark){
             if(!tCondition.ask()) {
                 //active = true;
+
                 procedure.run();
             }
             else{

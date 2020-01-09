@@ -19,10 +19,10 @@ public class Drivetrain{
   // here. Call these from Commands.
   DifferentialDrive drive;
 
-  WPI_TalonSRX rightMaster = new WPI_TalonSRX(0);
-  WPI_TalonSRX rightSlave = new WPI_TalonSRX(1);
-  WPI_TalonSRX leftMaster = new WPI_TalonSRX(2);
-  WPI_TalonSRX leftSlave = new WPI_TalonSRX(3);
+  WPI_TalonSRX rightMaster = new WPI_TalonSRX(3);
+  WPI_TalonSRX rightSlave = new WPI_TalonSRX(4);
+  WPI_TalonSRX leftMaster = new WPI_TalonSRX(1);
+  WPI_TalonSRX leftSlave = new WPI_TalonSRX(2);
 
   public Drivetrain (){
     rightSlave.follow(rightMaster);
@@ -31,7 +31,9 @@ public class Drivetrain{
   }
 
   public void arcade(double move, double turn){
-    drive.arcadeDrive(move, turn);
+    System.out.println(move);
+    System.out.println(turn);
+    drive.arcadeDrive(move,turn);
   }
 
   public double getRightPosition() {
