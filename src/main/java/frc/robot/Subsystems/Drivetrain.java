@@ -21,8 +21,8 @@ public class Drivetrain{
 
   WPI_TalonSRX rightMaster = new WPI_TalonSRX(3);
   WPI_TalonSRX rightSlave = new WPI_TalonSRX(4);
-  WPI_TalonSRX leftMaster = new WPI_TalonSRX(1);
-  WPI_TalonSRX leftSlave = new WPI_TalonSRX(2);
+  WPI_TalonSRX leftMaster = new WPI_TalonSRX(2);
+  WPI_TalonSRX leftSlave = new WPI_TalonSRX(1);
 
   public Drivetrain (){
     rightSlave.follow(rightMaster);
