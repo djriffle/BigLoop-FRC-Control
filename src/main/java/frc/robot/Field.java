@@ -7,35 +7,11 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import frc.robot.Grain;
-
 /**
- * Is the home of autonomous
- * Crushes Feed to make the robot drive
+ * Add your docs here.
  */
-
-
-public class Loop {
-    
-    ArrayList<Grain> chain = new ArrayList<Grain>();
-
-
-
-public void addGrain(Grain e){
-    e.run();
-    chain.add(e);
-}
-
-//looks for dead grians
-public void Maintence(){
-		for (int i = 0; i < chain.size(); i++) {
-            System.out.println(chain.get(i));
-            if(chain.get(i).dead){
-                chain.remove(i);
-            }
-	}
-    
-}
-
+public class Field {
+    //Global Checkmarks
+    static public boolean armUp = false;
+    static public boolean wristUp = false;
 }
