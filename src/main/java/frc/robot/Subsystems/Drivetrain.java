@@ -17,6 +17,8 @@ import frc.robot.OI;
 public class Drivetrain{
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
+  
   DifferentialDrive drive;
 
   WPI_TalonSRX rightMaster = new WPI_TalonSRX(3);
@@ -31,8 +33,6 @@ public class Drivetrain{
   }
 
   public void arcade(double move, double turn){
-    System.out.println(move);
-    System.out.println(turn);
     drive.arcadeDrive(move,turn);
   }
 
@@ -43,6 +43,11 @@ public class Drivetrain{
   public double getLeftPosition(){
     return rightSlave.getSelectedSensorPosition();
   }
+
+  public void resetEncoders() {
+		leftMaster.setSelectedSensorPosition(0, 0, 0);
+		rightMaster.setSelectedSensorPosition(0, 0, 0);
+	}
 
 
 }

@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot{
   public static Loop mill = new Loop();
+  OI oi = new OI();
   public void robotInit() {
 
   }
@@ -37,11 +38,12 @@ public class Robot extends TimedRobot{
 
   public void teleopInit() {
     SmartDashboard.putNumber("Is on", 10);
-    OI oi = new OI();
+   
   }
 
   public void teleopPeriodic(){
     mill.seed();
+    oi.listener();
   }
   public void test() {
   }
