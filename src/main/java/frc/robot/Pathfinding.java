@@ -7,12 +7,15 @@
 //great reference ->
 //https://github.com/team2383/2018Kappa/blob/5ff1b0afae8c319719aa4fdfe2d89dc8e98971cd/src/
 //com/team2383/robot/commands/FollowTrajectory.java
+
+//To Do: reintegrate navx
+
 package frc.robot;
 
 import jaci.pathfinder.*;
 import jaci.pathfinder.modifiers.TankModifier;
 import frc.robot.ninjalib.PathFollower;
-import frc.robot.OI;
+import frc.robot.HAL;
 
 
 /**

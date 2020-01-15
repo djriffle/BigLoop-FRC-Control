@@ -24,21 +24,21 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * Add your docs here.
  */
 public class OI {
-    Drivetrain drivetrain = new Drivetrain();
+
     Gamepad driver = new Gamepad(0);
     public OI(){
         //these are active listeners
         //make procedures and conditions
         TC noTC = ()->{return false;};
-        Procedure drive = () ->{drivetrain.arcade(driver.getRightX()/1.75,-driver.getLeftY()/1.4);};
+        Procedure drive = () ->{HAL.drivetrain.arcade(driver.getRightX()/1.75,-driver.getLeftY()/1.4);};
         //make and add grain
         Grain e = new Grain(drive,noTC,drive);
         Robot.mill.addGrain(e);
     }
     public void listener(){
-        TC encoder = () -> {return drivetrain.getRightPosition() >= 10;};
-        Procedure stop = () ->{drivetrain.arcade(0,0);};
-        Procedure move = () ->{drivetrain.arcade(0.3,0);System.out.println(drivetrain.getRightPosition());};
+        TC encoder = () -> {return HAL.drivetrain.getRightPosition() >= 10;};
+        Procedure stop = () ->{HAL.drivetrain.arcade(0,0);};
+        Procedure move = () ->{HAL.drivetrain.arcade(0.3,0);System.out.println(HAL.drivetrain.getRightPosition());};
         Grain forward = new Grain(move,encoder,stop);
         if(driver.getButtonStateA()){
             Robot.mill.addGrain(forward);
