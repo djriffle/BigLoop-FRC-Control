@@ -14,7 +14,7 @@ import frc.robot.TC;
 import frc.robot.Subsystems.Drivetrain;
 import frc.robot.ninjalib.Gamepad;
 import java.util.function.DoubleSupplier;
-
+import frc.robot.Pathfinding;
 import edu.wpi.first.vision.VisionRunner.Listener;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -31,17 +31,26 @@ public class OI {
         //make procedures and conditions
         TC noTC = ()->{return false;};
         Procedure drive = () ->{HAL.drivetrain.arcade(driver.getRightX()/1.75,-driver.getLeftY()/1.4);};
-        //make and add grain
-        Grain e = new Grain(drive,noTC,drive);
-        Robot.mill.addGrain(e);
-    }
-    public void listener(){
         TC encoder = () -> {return HAL.drivetrain.getRightPosition() >= 10;};
         Procedure stop = () ->{HAL.drivetrain.arcade(0,0);};
         Procedure move = () ->{HAL.drivetrain.arcade(0.3,0);System.out.println(HAL.drivetrain.getRightPosition());};
+        Procedure findPath () = -> {HAL.finder.followPath()} 
+        //make and add grain
+        Grain e = new Grain(drive,noTC,drive);
+        Robot.mill.addGrain(e);
+       
+    }
+
+    public void listener(){
         Grain forward = new Grain(move,encoder,stop);
+        Grain path = new Grain(findPath,noTC,stop);
+        //button groups
         if(driver.getButtonStateA()){
             Robot.mill.addGrain(forward);
+            
+        }
+        if(driver.getButtonStateB()){
+            Robot.mill.addGrain(path);
             
         }
     }
