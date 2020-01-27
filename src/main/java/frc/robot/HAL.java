@@ -8,7 +8,7 @@
 package frc.robot;
 
 import frc.robot.Subsystems.*;
-import frc.robot.pathfinding;
+//import frc.robot.pathfinding;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -18,6 +18,6 @@ import edu.wpi.first.wpilibj.SPI;
 public class HAL {
     public static Drivetrain drivetrain = new Drivetrain();
     public static AHRS navX = new AHRS(SPI.Port.kMXP);
-    public static Pathifinnding finder = new Pathifinnding(); 
+   // public static Pathifinnding finder = new Pathifinnding(); 
 
 }
