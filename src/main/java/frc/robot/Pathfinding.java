@@ -15,7 +15,12 @@ package frc.robot;
 import jaci.pathfinder.*;
 import jaci.pathfinder.modifiers.TankModifier;
 import frc.robot.ninjalib.PathFollower;
+
+import com.ctre.phoenix.CANifier.LEDChannel;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.HAL;
+import frc.robot.Subsystems.Drivetrain;
 
 
 /**
@@ -42,14 +47,17 @@ public class Pathfinding {
     TankModifier modifier = new TankModifier(trajectory);
     Trajectory left  = modifier.getLeftTrajectory();       // Get the Left Side
     Trajectory right = modifier.getRightTrajectory();      // Get the Right Side
-
+	PathFollower leftFollower;
+	PathFollower rightFollower;
+	Double startingAngle = 0.0;
+	double angleDifference;
 
 
     Pathfinding(){
         modifier.modify(wheelbase_width);
 		
-		PathFollower leftFollower = new PathFollower(modifier.getLeftTrajectory());
-		PathFollower rightFollower = new PathFollower(modifier.getRightTrajectory());
+		leftFollower = new PathFollower(modifier.getLeftTrajectory());
+		rightFollower = new PathFollower(modifier.getRightTrajectory());
 		
 		leftFollower.configurePIDVA(
             1, // proportional
@@ -68,14 +76,14 @@ public class Pathfinding {
 		leftFollower.reset();
         rightFollower.reset();
         
-        drive.resetEncoders();
-        navX.zeroYaw();
+        HAL.drivetrain.resetEncoders();
+        HAL.navX.zeroYaw();
         
         
 
     }
-
-    followPath(){
+	
+    public void followPath(){
         SmartDashboard.putNumber("MP Target Left Position (ft)", leftFollower.getSegment().position);
 		SmartDashboard.putNumber("MP Target Left Velocity (ft-s)", leftFollower.getSegment().velocity);
 
@@ -87,29 +95,27 @@ public class Pathfinding {
 		double leftOutput;
 		double rightOutput;
 		//forwards
-		if (!backwards) {
-			leftOutput = leftFollower.calculate(drive.getMotion().leftPosition);
-			rightOutput = rightFollower.calculate(drive.getMotion().rightPosition);
-		} else {
+
 			//backwards
-			leftOutput = leftFollower.calculate(-drive.getMotion().rightPosition); //left = -right
-			rightOutput = rightFollower.calculate(-drive.getMotion().leftPosition); //right = -left
-		}
+//			leftOutput = leftFollower.calculate(HAL.drivetrain.getMotion().rightPosition); //left = -right
+//			rightOutput = rightFollower.calculate(HAL.drivetrain.getMotion().leftPosition); //right = -left
+			leftOutput = 0;
+			rightOutput = 0;
 		
-		double gyro_heading = -navX.getAngle(); //axis is the same
+		double gyro_heading = -HAL.navX.getAngle(); //axis is the same
 		
 		double desired_heading = Pathfinder.r2d(leftFollower.getHeading() - startingAngle);  // Should also be in degrees, make sure its in phase
 
 		SmartDashboard.putNumber("MP1 gyro_heading", gyro_heading);
 		SmartDashboard.putNumber("MP2 desired_heading", desired_heading);
 		SmartDashboard.putNumber("MP3 error", desired_heading-gyro_heading);
-		SmartDashboard.putNumber("MP6 turnP", Constants.kDrive_Motion_turnP);
+		SmartDashboard.putNumber("MP6 turnP", 0.5);
 		
 		angleDifference = Pathfinder.boundHalfDegrees(desired_heading - gyro_heading);
 
 		SmartDashboard.putNumber("MP4 angleDiff", angleDifference);
 		
-		double turn = Constants.kDrive_Motion_turnP * angleDifference;
+		double turn = 0.2 * angleDifference;
 		SmartDashboard.putNumber("MP Left Output (%)", leftOutput);
 		SmartDashboard.putNumber("MP Right Output (%)", rightOutput);
 		SmartDashboard.putNumber("MP Left Output BCKWRDS (%)", -rightOutput);
@@ -117,9 +123,9 @@ public class Pathfinding {
 		SmartDashboard.putNumber("MP5 Heading Adj. Output (%)", turn);
 	
 			//forwards
-		if (!backwards) {
-			drive.tank(leftOutput - turn, rightOutput + turn);
-		} else {
+		
+		HAL.drivetrain.tank(leftOutput - turn, rightOutput + turn);
+		
 			//backwards
 			/*.tank is forwards, so (fwd_left, fwd_right)
 			 * back_left = -fwd_right
@@ -130,10 +136,11 @@ public class Pathfinding {
 			 * turn input is relative to true (fwd) drivetrain output, not the actual direction
 			 * so fwd_left(back_right) has to be less negative (going slower) then fwd_right(back_left), when turning right (negative turn)
 			 */
-			drive.tank(-rightOutput - turn, -leftOutput + turn);
+			//drive.tank(-rightOutput - turn, -leftOutput + turn);
 		}
+		
     }
 
     
-}
+
 

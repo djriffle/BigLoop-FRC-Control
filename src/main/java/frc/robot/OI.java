@@ -25,6 +25,10 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
+    Procedure feedIn = () -> {HAL.feeder.on();};
+    Procedure stopFeed = () -> {HAL.feeder.off();};
+    TC released = () -> {return !driver.getButtonStateA();};
+
     Gamepad driver = new Gamepad(0);
     public OI(){
         //these are active listeners
@@ -34,23 +38,27 @@ public class OI {
         TC encoder = () -> {return HAL.drivetrain.getRightPosition() >= 10;};
         Procedure stop = () ->{HAL.drivetrain.arcade(0,0);};
         Procedure move = () ->{HAL.drivetrain.arcade(0.3,0);System.out.println(HAL.drivetrain.getRightPosition());};
-        Procedure findPath () = -> {HAL.finder.followPath()} 
+
+        Procedure feedIn = () -> {HAL.feeder.on();};
+        Procedure stopFeed = () -> {HAL.feeder.off();};
+        
         //make and add grain
+
         Grain e = new Grain(drive,noTC,drive);
         Robot.mill.addGrain(e);
        
     }
 
     public void listener(){
-        Grain forward = new Grain(move,encoder,stop);
-        Grain path = new Grain(findPath,noTC,stop);
+        
         //button groups
         if(driver.getButtonStateA()){
-            Robot.mill.addGrain(forward);
+
+
             
         }
         if(driver.getButtonStateB()){
-            Robot.mill.addGrain(path);
+ 
             
         }
     }
